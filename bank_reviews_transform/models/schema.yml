@@ -1,0 +1,38 @@
+models:
+  - name: dim_bank
+    columns:
+      - name: bank_key
+        tests:
+          - unique
+          - not_null
+      - name: bank_name
+        tests:
+          - not_null
+
+  - name: dim_branch
+    columns:
+      - name: branch_key
+        tests:
+          - unique
+          - not_null
+      - name: bank
+        tests:
+          - not_null
+          # Test de relation corrigé : bank -> bank_name dans dim_bank
+          - relationships:
+              to: ref('dim_bank')
+              field: bank_name
+
+  - name: dim_sentiment
+    columns:
+      - name: sentiment_key
+        tests:
+          - unique
+          - not_null
+      - name: bank
+        tests:
+          - not_null
+          # Test de relation corrigé : bank -> bank_name dans dim_bank
+          - relationships:
+              to: ref('dim_bank')
+              field: bank_name
